@@ -72,9 +72,9 @@ class XiangqiEnv():
             final_trans+=line+"/"
         final_trans=final_trans[0:-1]
         if self.board.turn=="red":
-            final_trans=final_trans[0:-1]+" w"+" - - "+str(0)+" "+str(self.board.rounds)
+            final_trans=final_trans+" w"
         elif self.board.turn=="black":
-            final_trans=final_trans[0:-1]+" b"+" - - "+str(0)+" "+str(self.board.rounds)
+            final_trans=final_trans+" b"
         return final_trans
         
     def __str__(self):
