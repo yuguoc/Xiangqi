@@ -1,22 +1,38 @@
+from turtle import Vec2D
 from modules.board import Board
-
+from modules.vec2d import Vec2d
 class XiangqiEnv():
     def __init__(self):
         self.board = Board();
+        self.number_list=["0","1","2","3","4","5","6","7","8","9"]
+        self.letter_list=["A","B","C","D","E","F","G","H","I"]
     def actionSpace(self):
-        return self.board.actionSpaces();
+        self.tmp = self.board.actionSpaces();
+        self.actionspace=[]
+        for i in self.tmp:
+            current_p=i[0]
+            for j in i[1]:
+                self.actionspace.append(self.letter_list[current_p.x]+self.number_list[current_p.y]+self.letter_list[j.x+current_p.x]+self.number_list[j.y+current_p.y])
+        return self.actionspace
     
     def state(self):
         return self.board.board
     
-    def step(self, action):
+    def step(self, action_):
         signal = False
+        action=[]
+        piece_index=self.board.board[self.letter_list.index(action_[0])][self.number_list.index(action_[1])]
+        if int(piece_index)>16: #Turn into the FEN format
+            action.append(int(piece_index)-16)
+        else:
+            action.append(int(piece_index))
+        action.append(Vec2d(self.letter_list.index(action_[2])-self.letter_list.index(action_[0]),self.number_list.index(action_[3])-self.number_list.index(action_[1])))
         killed = self.board.step(action);
         if self.board.doGeneralsMeet():
             signal = "lose"
         if killed == 'General':
             signal = "win"
-        return killed, self.board.board, signal
+        return killed, self.board.board, signal,self.board.turn
 
     def translate(self):
         board=self.state().copy()

@@ -285,13 +285,13 @@ class Board:
                 if self.pieces[i].isAlive == False:
                     actionSpaces.append([]);
                 else:
-                    actionSpaces.append(self.actionSpace(i));
+                    actionSpaces.append([self.pieces[i].pos,self.actionSpace(i)]);  #Add the current position
         else:
             for i in range(16, 32):
                 if self.pieces[i].isAlive == False:
                     actionSpaces.append([]);
                 else:
-                    actionSpaces.append(self.actionSpace(i));
+                    actionSpaces.append([self.pieces[i].pos,self.actionSpace(i)]); #Add the current position
         return actionSpaces;
     
     def step(self, action):
